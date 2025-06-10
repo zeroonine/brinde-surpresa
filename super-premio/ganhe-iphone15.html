@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Parabéns! Você ganhou um iPhone 15!</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fdf6ed;
+      color: #222;
+      text-align: center;
+      min-height: 100vh;
+      width: 100vw;
+      box-sizing: border-box;
+    }
+    .container {
+      max-width: 400px; margin: 0 auto; padding: 24px 10px 12px 10px;
+      display: flex; flex-direction: column; align-items: center;
+      min-height: 100vh;
+    }
+    h1, .headline {
+      color: #e67e22; font-size: 1.5em; margin-bottom: 12px; text-align:center;
+    }
+    .headline { color: #27ae60; font-size: 1.3em; font-weight: bold; margin: 24px 0 12px;}
+    .sponsor {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      margin-bottom: 18px; gap: 8px;
+    }
+    .sponsor img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .sponsor-text {
+      font-size: 1.15em;
+      color: #222;
+      font-weight: bold;
+    }
+    .prize-img {
+      width: 200px;
+      height: 200px;
+      max-width: 95vw;
+      max-height: 48vw;
+      margin: 0 auto 18px;
+      display: block;
+      object-fit: contain;
+      /* Responsive scaling for smaller screens */
+      transition: width 0.2s, height 0.2s;
+    }
+    .desc { font-size: 1.1em; margin-bottom: 18px;}
+    .timer { color: #e67e22; font-size: 1.1em; margin-bottom: 10px;}
+    .progress-bar-outer {
+      width: 90%; height: 18px; background: #eee;
+      border-radius: 10px; margin: 12px auto 20px; overflow: hidden;
+    }
+    .progress-bar-inner {
+      height: 100%; background: linear-gradient(90deg,#f1c40f,#e67e22); width: 0%;
+      border-radius: 10px; transition: width 0.7s;
+    }
+    .cta {
+      display: inline-block;
+      margin-top: 16px;
+      background: #e67e22;
+      color: #fff; font-weight: bold;
+      padding: 13px 32px;
+      border-radius: 32px;
+      border: none; font-size: 1.1em;
+      cursor: pointer;
+      letter-spacing: .5px;
+      text-decoration: none;
+    }
+    .testimonials {
+      margin: 28px 0 0;
+      padding: 0;
+      list-style: none;
+      width: 100%;
+      max-width: 400px;
+    }
+    .testimonial {
+      display: flex; align-items: center; background: #fff;
+      border-radius: 12px; box-shadow: 0 2px 10px #e67e2220;
+      margin-bottom: 13px; padding: 12px 10px;
+    }
+    .testimonial-photo {
+      width: 48px; height: 48px; border-radius: 50%; object-fit: cover;
+      margin-right: 12px; border: 2px solid #f1c40f;
+    }
+    .testimonial-content {
+      flex: 1; text-align: left; font-size: 0.95em;
+    }
+    .testimonial-name { font-weight: bold; color: #e67e22;}
+    .testimonial-city { font-size: 0.89em; color: #888;}
+    @media (max-width: 540px) {
+      .prize-img {
+        width: 45vw;
+        height: 45vw;
+        min-width: 100px;
+        min-height: 100px;
+        max-width: 200px;
+        max-height: 200px;
+      }
+      .sponsor img {
+        width: 50px; height: 50px;
+      }
+    }
+    @media (max-width: 350px) {
+      .prize-img { width: 80px; height: 80px; }
+      .sponsor img { width: 40px; height: 40px; }
+      .headline { font-size: 1em;}
+      .testimonial-photo { width: 38px; height: 38px;}
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Abra a caixa e ganhe um presente exclusivo!</h1>
+  <div class="sponsor">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Tiktok_icon.svg/2048px-Tiktok_icon.svg.png" alt="TikTok logo">
+    <span class="sponsor-text">Disponsorizado por TikTok™</span>
+  </div>
+  <img class="prize-img" src="https://raw.githubusercontent.com/hdpngworld/HPW/main/uploads/650388e7d9ed2-Apple%20iphone%2015.png" alt="iPhone 15">
+  <div class="headline">Parabéns! Você ganhou um iPhone 15!</div>
+  <div class="desc">Para resgatar seu prêmio, complete a verificação abaixo!</div>
+  <div class="timer" id="timer">00:30</div>
+  <div class="progress-bar-outer">
+    <div class="progress-bar-inner" id="progressBar"></div>
+  </div>
+  <a href="verificacao.html" class="cta">Clique para validar seu prêmio</a>
+  
+  <ul class="testimonials">
+    <li class="testimonial">
+      <img class="testimonial-photo" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Maria">
+      <div class="testimonial-content">
+        <div>“Ganhei meu iPhone e chegou rapidinho! Obrigada TikTok!”</div>
+        <div class="testimonial-name">Maria Oliveira</div>
+        <div class="testimonial-city">Fortaleza, CE</div>
+      </div>
+    </li>
+    <li class="testimonial">
+      <img class="testimonial-photo" src="https://randomuser.me/api/portraits/men/32.jpg" alt="João">
+      <div class="testimonial-content">
+        <div>“Muito fácil! Recebi meu iPhone 15 depois de seguir as instruções.”</div>
+        <div class="testimonial-name">João Souza</div>
+        <div class="testimonial-city">Belo Horizonte, MG</div>
+      </div>
+    </li>
+    <li class="testimonial">
+      <img class="testimonial-photo" src="https://randomuser.me/api/portraits/women/65.jpg" alt="Camila">
+      <div class="testimonial-content">
+        <div>“Achei que era mentira, mas recebi o prêmio! Top!”</div>
+        <div class="testimonial-name">Camila Silva</div>
+        <div class="testimonial-city">Recife, PE</div>
+      </div>
+    </li>
+  </ul>
+</div>
+<script>
+  // Timer and progress bar
+  let time = 30;
+  const timerEl = document.getElementById('timer');
+  const progressBar = document.getElementById('progressBar');
+  progressBar.style.width = '0%';
+  const interval = setInterval(() => {
+    time--;
+    timerEl.textContent = `00:${time < 10 ? '0'+time : time}`;
+    progressBar.style.width = ((30-time)/30*100).toFixed(0) + '%';
+    if (time <= 0) {
+      clearInterval(interval);
+      progressBar.style.width = '100%';
+      timerEl.textContent = "00:00";
+    }
+  }, 1000);
+</script>
+</body>
+</html>

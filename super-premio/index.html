@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Abra a caixa e ganhe um presente exclusivo!</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #f7f7f9;
+      color: #222;
+      font-family: 'Montserrat', Arial, sans-serif;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      width: 100vw;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 8px 12px 8px;
+    }
+    h1 {
+      font-size: 1.5em;
+      margin-bottom: 12px;
+      color: #e67e22;
+      text-align: center;
+    }
+    .sponsor {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      gap: 8px;
+    }
+    .sponsor img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .sponsor-text {
+      font-size: 1.15em;
+      color: #222;
+      font-weight: bold;
+    }
+    .giftbox-area {
+      margin: 30px 0 18px 0;
+      min-height: 255px;
+      min-width: 250px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .giftbox {
+      width: 170px;
+      height: 170px;
+      position: relative;
+      cursor: pointer;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      background: none;
+      margin: 0 auto;
+      transition: opacity .4s;
+    }
+    .giftbox-bottom {
+      width: 130px;
+      height: 80px;
+      background: linear-gradient(120deg,#f1c40f 60%,#e67e22 100%);
+      border-radius: 0 0 20px 20px;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 5px 22px #e67e2240;
+      z-index: 2;
+    }
+    .giftbox-lid {
+      width: 145px;
+      height: 50px;
+      background: linear-gradient(90deg,#e67e22 60%,#f1c40f 100%);
+      border-radius: 20px 20px 16px 16px;
+      position: absolute;
+      left: 50%;
+      top: 22px;
+      transform: translateX(-50%);
+      box-shadow: 0 2px 12px #e67e221a;
+      z-index: 3;
+      transition: all .7s cubic-bezier(.4,2,.5,0.9);
+    }
+    .giftbox-lid.open {
+      transform: translateX(-50%) rotate(-70deg) translateY(-90px) scale(1.2);
+      opacity: .85;
+      box-shadow: 0 12px 48px #e67e2220;
+    }
+    .ribbon-horizontal {
+      width: 130px;
+      height: 13px;
+      background: #ed3237;
+      position: absolute;
+      left: 50%;
+      top: 65px;
+      transform: translateX(-50%);
+      border-radius: 15px;
+      z-index: 3;
+    }
+    .ribbon-vertical {
+      width: 17px;
+      height: 80px;
+      background: #ed3237;
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      border-radius: 12px;
+      z-index: 4;
+    }
+    .bow {
+      position: absolute;
+      top: 7px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 54px;
+      height: 34px;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .bow-left, .bow-right {
+      width: 23px;
+      height: 24px;
+      background: #ed3237;
+      border-radius: 50% 50% 50% 50% / 60% 80% 60% 80%;
+      position: absolute;
+      top: 0;
+    }
+    .bow-left { left: 0; transform: rotate(-25deg);}
+    .bow-right { right: 0; transform: rotate(25deg);}
+    .bow-center {
+      width: 14px;
+      height: 14px;
+      background: #f5d330;
+      border-radius: 50%;
+      position: absolute;
+      left: 50%;
+      top: 9px;
+      transform: translateX(-50%);
+      border: 3px solid #ed3237;
+    }
+    .giftbox.idle {
+      animation: boxIdle .8s infinite alternate;
+    }
+    @keyframes boxIdle {
+      0% { transform: translateY(0);}
+      100% { transform: translateY(-10px);}
+    }
+    .giftbox.shake {
+      animation: shakebox 0.5s;
+    }
+    @keyframes shakebox {
+      0% { transform: translateY(0);}
+      15% { transform: translateY(-6px) rotate(-3deg);}
+      30% { transform: translateY(6px) rotate(2deg);}
+      45% { transform: translateY(-8px) rotate(-4deg);}
+      60% { transform: translateY(5px) rotate(3deg);}
+      75% { transform: translateY(-6px) rotate(-3deg);}
+      100% {transform: translateY(0);}
+    }
+    .confetti {
+      display: none;
+      pointer-events: none;
+      position: absolute;
+      left: 0; top: 0; width: 100%; height: 260px;
+      z-index: 50;
+      overflow: visible;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .confetti .particle {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      opacity: .88;
+      border-radius: 50%;
+      animation: drop .95s cubic-bezier(.6,1.3,.3,.89) forwards;
+    }
+    @keyframes drop {
+      0% { transform: translateY(0) scale(1.2) rotate(0);}
+      80% { opacity: 1;}
+      100% { transform: translateY(180px) scale(0.55) rotate(200deg); opacity: 0.0;}
+    }
+    .prize-reveal {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 250px;
+      margin-top: 0;
+      z-index: 9;
+      animation: fadein 1s;
+      text-align: center;
+    }
+    .prize-reveal.show {
+      display: flex;
+    }
+    @keyframes fadein { from {opacity:0;transform:translateY(40px);} to{opacity:1;transform:translateY(0);} }
+    .prize-img {
+      width: 200px;
+      height: 200px;
+      max-width: 95vw;
+      max-height: 48vw;
+      margin-bottom: 24px;
+      filter: drop-shadow(0 6px 24px #2222);
+      animation: shinePrize 1.4s cubic-bezier(.5,1.5,.7,1) both;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      object-fit: contain;
+      transition: width 0.2s, height 0.2s;
+    }
+    @keyframes shinePrize {
+      0% { transform: scale(0.7) rotate(-20deg);}
+      50% { transform: scale(1.15) rotate(5deg);}
+      75% { filter: brightness(1.2);}
+      100% { transform: scale(1) rotate(0);}
+    }
+    .prize-title {
+      font-size: 1.25em;
+      font-weight: bold;
+      color: #27ae60;
+      margin-bottom: 20px;
+      text-shadow: 0 1px 10px #fff;
+      line-height: 1.3;
+      text-align: center;
+      display: block;
+    }
+    .cta-next {
+      margin-top: 10px;
+      background: #e67e22;
+      color: #fff;
+      font-weight: bold;
+      padding: 16px 38px;
+      border-radius: 32px;
+      border: none;
+      font-size: 1.1em;
+      cursor: pointer;
+      letter-spacing: .5px;
+      text-decoration: none;
+      box-shadow:0 2px 12px #e67e2240;
+      transition: background .2s;
+      display: inline-block;
+    }
+    .cta-next:hover { background: #d35400;}
+    .tap-text {
+      color:#888;
+      font-size:.98em;
+      margin-top:18px;
+      text-align:center;
+      width: 100%;
+    }
+    @media (max-width: 540px) {
+      .prize-img {
+        width: 45vw;
+        height: 45vw;
+        min-width: 100px;
+        min-height: 100px;
+        max-width: 200px;
+        max-height: 200px;
+      }
+      .sponsor img {
+        width: 50px; height: 50px;
+      }
+    }
+    @media (max-width: 350px) {
+      .giftbox, .prize-reveal { width: 120px; height: 120px;}
+      .prize-img { width: 80px; height: 80px; }
+      .prize-title { font-size: 1em;}
+      .giftbox-bottom { width: 95px; height: 55px;}
+      .giftbox-lid { width: 110px; height: 36px;}
+      .ribbon-horizontal { width: 95px; height: 8px; top: 41px;}
+      .ribbon-vertical { width: 11px; height: 55px;}
+      .bow { width: 32px; height: 20px;}
+      .bow-left, .bow-right { width: 12px; height: 14px;}
+      .bow-center { width: 8px; height: 8px;}
+      .sponsor img { width: 40px; height: 40px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Abra a caixa e ganhe um presente exclusivo!</h1>
+  <div class="sponsor">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Tiktok_icon.svg/2048px-Tiktok_icon.svg.png" alt="TikTok logo">
+    <span class="sponsor-text">Disponsorizado por TikTok™</span>
+  </div>
+  <div class="giftbox-area" id="giftboxArea">
+    <!-- Giftbox -->
+    <div class="giftbox idle" id="giftBox">
+      <div class="bow">
+        <div class="bow-left"></div>
+        <div class="bow-center"></div>
+        <div class="bow-right"></div>
+      </div>
+      <div class="giftbox-lid" id="lid"></div>
+      <div class="giftbox-bottom"></div>
+      <div class="ribbon-horizontal"></div>
+      <div class="ribbon-vertical"></div>
+      <div class="confetti" id="confetti"></div>
+    </div>
+    
+    <!-- Prize Reveal -->
+    <div class="prize-reveal" id="prizeReveal">
+      <img class="prize-img" src="https://raw.githubusercontent.com/hdpngworld/HPW/main/uploads/650388e7d9ed2-Apple%20iphone%2015.png" alt="iPhone 15">
+      <div class="prize-title">
+        Parabéns! Você ganhou um <br>
+        <span style="color:#e67e22">iPhone 15</span>
+      </div>
+      <a href="ganhe-iphone15.html" class="cta-next">Validar Prêmio</a>
+    </div>
+  </div>
+  <div class="tap-text">
+    Toque na caixa para abrir &nbsp;🎁
+  </div>
+</div>
+<script>
+const giftBox = document.getElementById('giftBox');
+const lid = document.getElementById('lid');
+const confetti = document.getElementById('confetti');
+const prizeReveal = document.getElementById('prizeReveal');
+let opened = false;
+
+// Confetti color options
+const confettiColors = ['#e67e22','#f1c40f','#27ae60','#fff','#222','#00f2ea','#ff0050'];
+
+giftBox.onclick = function() {
+  if (opened) return;
+  opened = true;
+  // Idle->shake
+  giftBox.classList.remove('idle');
+  giftBox.classList.add('shake');
+  setTimeout(() => {
+    // Buka lid
+    lid.classList.add('open');
+    // Stop shake anim
+    giftBox.classList.remove('shake');
+    // Hide box after lid anim
+    setTimeout(() => {
+      giftBox.style.opacity = 0;
+      giftBox.style.pointerEvents = "none";
+      // Confetti Start
+      showConfetti();
+      // After confetti, show prize
+      setTimeout(() => {
+        confetti.style.display = 'none';
+        prizeReveal.classList.add('show');
+      }, 1400); // confetti duration
+    }, 800);
+  }, 700); // waktu shake
+};
+
+function showConfetti() {
+  confetti.innerHTML = "";
+  confetti.style.display = "flex";
+  const area = confetti.getBoundingClientRect();
+  // Generate 32 confetti
+  for(let i=0;i<32;i++) {
+    let part = document.createElement('div');
+    part.className = 'particle';
+    const angle = (Math.random() * Math.PI * 2);
+    const r = 60 + Math.random() * 50;
+    // Place origin at area above box
+    part.style.left = (area.width/2 + Math.cos(angle)*r) + 'px';
+    part.style.top = (30 + Math.sin(angle)*r/1.4) + 'px';
+    part.style.background = confettiColors[i % confettiColors.length];
+    part.style.opacity = 0.8 + Math.random()*0.2;
+    part.style.transform = `rotate(${Math.random()*360}deg)`;
+    part.style.animationDuration = (0.9+Math.random()*0.3)+'s';
+    confetti.appendChild(part);
+  }
+}
+</script>
+</body>
+</html>
